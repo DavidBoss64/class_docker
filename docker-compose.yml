@@ -1,0 +1,35 @@
+services:
+  # 🐘 Nuestra app PHP + Apache (construida con el Dockerfile)
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db            # el nombre del servicio funciona como "dominio" dentro de la red
+      DB_NAME: inscripciones
+      DB_USER: root
+      DB_PASSWORD: secreto
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 🗄️ Base de datos MariaDB (la misma que trae XAMPP)
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: secreto
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d   # ejecuta database.sql al crearse
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # 🖥️ Adminer: administrador visual de la BD (como phpMyAdmin)
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: db

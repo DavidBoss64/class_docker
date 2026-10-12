@@ -28,3 +28,25 @@ Dentro de un contenedor, `localhost` es el propio contenedor y no tu PC 😉
 ```bash
 docker rm -f app   # limpiar
 ```
+
+## Paso 2: app + base de datos + Adminer con Docker Compose
+
+```bash
+docker compose up -d --build
+```
+
+| Servicio | URL | Equivale en XAMPP a… |
+|---|---|---|
+| App | http://localhost:8080 | Apache + PHP |
+| Adminer | http://localhost:8081 | phpMyAdmin |
+| Base de datos | (interna, servicio `db`) | MySQL/MariaDB |
+
+Datos de acceso en Adminer: servidor `db`, usuario `root`, contraseña `secreto`.
+
+```bash
+docker compose ps          # ver los servicios
+docker compose logs -f app # ver logs
+docker compose down        # apagar y eliminar los contenedores
+```
+
+⚠️ Prueba esto: inscribe un alumno, ejecuta `docker compose down` y luego `up` otra vez. **¡El alumno desapareció!**
