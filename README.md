@@ -14,3 +14,17 @@ Requisitos: instalar XAMPP (Apache + PHP + MySQL/MariaDB).
 
 ¿Y si otro dev tiene otra versión de PHP? ¿Y si usa Linux o Mac? ¿Y si el puerto 80 está ocupado? 🤔
 👉 Para eso existe Docker.
+
+## Paso 1: nuestra primera imagen con un `Dockerfile`
+
+```bash
+docker build -t inscripciones-app .
+docker run -d -p 8080:80 --name app inscripciones-app
+```
+
+Abre http://localhost:8080. Verás un **error de conexión**: la app ya corre en Docker, pero aún no tiene base de datos.
+Dentro de un contenedor, `localhost` es el propio contenedor y no tu PC 😉
+
+```bash
+docker rm -f app   # limpiar
+```
