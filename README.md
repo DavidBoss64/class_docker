@@ -50,3 +50,46 @@ docker compose down        # apagar y eliminar los contenedores
 ```
 
 ⚠️ Prueba esto: inscribe un alumno, ejecuta `docker compose down` y luego `up` otra vez. **¡El alumno desapareció!**
+
+## Paso 3: volúmenes (datos persistentes y código en vivo)
+
+Agregamos dos volúmenes en `docker-compose.yml`:
+
+- `db_data:/var/lib/mysql` → los datos de la BD se guardan fuera del contenedor.
+- `./app:/var/www/html` → editas el PHP en tu editor y lo ves al recargar, sin reconstruir la imagen.
+
+```bash
+docker compose down
+docker compose up -d
+```
+
+Ahora los alumnos **siguen ahí** ✅. Para borrar también los datos: `docker compose down -v`.
+
+## 🚀 Resultado final: cualquier dev lo ejecuta con un comando
+
+```bash
+git clone https://github.com/DavidBoss64/class_docker.git
+cd class_docker
+docker compose up -d
+```
+
+Sin instalar XAMPP, PHP ni MySQL. Solo Docker.
+
+## Recorrer la clase paso a paso
+
+Cada paso tiene una etiqueta de git:
+
+```bash
+git checkout paso-0-xampp
+git checkout paso-1-dockerfile
+git checkout paso-2-compose
+git checkout paso-3-volumenes
+```
+
+## Problemas comunes
+
+- **"port is already allocated"**: el puerto 8080/8081 está en uso (¿XAMPP encendido?). Cambia `"8080:80"` por `"8090:80"`.
+- **Cambié `database.sql` y no se aplica**: solo se ejecuta cuando la BD se crea por primera vez. Usa `docker compose down -v` y vuelve a levantar.
+- **Adminer no abre y en los logs sale `Failed to listen on [::]:8080`**: tu sistema no tiene IPv6. Agrega al servicio `adminer`: `command: ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/html"]`.
+
+Guion de la clase: [`docs/guion.md`](docs/guion.md) · Comandos: [`docs/comandos.md`](docs/comandos.md)
