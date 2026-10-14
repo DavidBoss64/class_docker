@@ -1,10 +1,12 @@
 # Inscripciones a cursos (PHP + MySQL con XAMPP)
 
-App sencilla para la masterclass "De XAMPP a Docker": registra alumnos inscritos a cursos (listar, inscribir y eliminar).
+App sencilla para la masterclass "De XAMPP a Docker": registra alumnos inscritos a cursos (listar, inscribir y eliminar), con cupos por curso y un panel **"¿Dónde estoy corriendo?"** que muestra la versión de PHP, el nombre del servidor y a qué base de datos está conectada.
+
+> Ese panel es el centro de la demo: en XAMPP muestra el nombre de tu PC y `localhost`; dentro de Docker muestra el **ID del contenedor** y `db`. El mismo código, dos entornos.
 
 ```
 app/
-  index.php     → la página (formulario + tabla)
+  index.php     → la página (panel de entorno + formulario + cupos + tabla)
   config.php    → conexión a la base de datos
 database/
   database.sql  → crea la BD "inscripciones" con datos de ejemplo
